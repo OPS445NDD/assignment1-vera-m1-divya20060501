@@ -27,9 +27,51 @@ def day_of_week(year: int, month: int, date: int) -> str:
     return days[num]
 
 
-def mon_max(month:int, year:int) -> int:
-    "returns the maximum day for a given month. Includes leap year check"
-    ...
+def leap_year(year: int) -> bool:
+    """
+    Returns True if the year is a leap year.
+    Returns False otherwise.
+    """
+
+    if year % 400 == 0:
+       return True
+
+    if year % 100 == 0:
+       return False
+
+    if year % 4 == 0:
+       return True
+
+    return False
+
+
+def mon_max(month: int, year: int) -> int:
+    """
+    Returns the maximum day for a given month.
+    Includes leap year check.
+    """
+
+    if month == 2:
+        if leap_year(year):
+            return 29
+        return 28
+
+    month_days = {
+        1: 31,
+        3: 31,
+        4: 30,
+        5: 31,
+        6: 30,
+        7: 31,
+        8: 31,
+        9: 30,
+        10: 31,
+        11: 30,
+        12: 31
+    }
+
+    return month_days[month]
+
 
 def after(date: str) -> str:
     '''
@@ -43,26 +85,13 @@ def after(date: str) -> str:
     year = int(str_year)
     month = int(str_month)
     day = int(str_day)
-    lyear = year % 4
-    if lyear == 0:
-        feb_max = 29 # this is a leap year
-    else:
-        feb_max = 28 # this is not a leap year
 
-    lyear = year % 100
-    if lyear == 0:
-        feb_max = 28 # this is not a leap year
-
-    lyear = year % 400
-    if lyear == 0:
-        feb_max = 29 # this is a leap year
-
-    mon_max = { 1:31, 2:feb_max, 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}
+    month_max = mon_max(month, year)
 
     tmp_day = day + 1  # next day
 
-    if tmp_day > mon_max[month]:
-        to_day = tmp_day % mon_max[month]  # if tmp_day > this month's max, reset to 1 
+    if tmp_day > month_max:
+        to_day = tmp_day % month_max  # if tmp_day > this month's max, reset to 1 
         tmp_month = month + 1
     else:
         to_day = tmp_day
@@ -81,11 +110,6 @@ def after(date: str) -> str:
 
 def usage():
     "Print a usage message to the user"
-    ...
-
-
-def leap_year(year: int) -> bool:
-    "return True if the year is a leap year"
     ...
 
 def valid_date(date: str) -> bool:
