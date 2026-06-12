@@ -113,12 +113,85 @@ def usage():
     ...
 
 def valid_date(date: str) -> bool:
-    "check validity of date and return True if valid"
-    ...
+    try:
+        str_year, str_month, str_day = date.split('-')
+
+        if len(str_year) != 4:
+
+            return False
+
+
+
+        year = int(str_year)
+
+        month = int(str_month)
+
+        day = int(str_day)
+
+
+
+        if month < 1 or month > 12:
+
+             return False
+
+
+
+        if day < 1:
+
+             return False
+
+
+
+        if day > mon_max(month, year):
+
+            return False
+
+        return True
+
+    except:
+
+        return False
 
 def day_count(start_date: str, stop_date: str) -> int:
     "Loops through range of dates, and returns number of weekend days"
-    ...
+    count = 0
+
+
+
+    current_date = start_date
+
+
+
+    while current_date <= stop_date:
+
+
+
+        year, month, day = current_date.split('-')
+
+
+
+        weekday = day_of_week(
+
+            int(year),
+
+            int(month),
+
+            int(day)
+
+        )
+
+
+        if weekday == 'sat' or weekday == 'sun':
+
+            count += 1
+
+
+        current_date = after(current_date)
+
+
+
+
+    return count
 
 if __name__ == "__main__":
     ...
