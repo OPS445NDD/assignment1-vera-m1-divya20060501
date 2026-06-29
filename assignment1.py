@@ -110,7 +110,9 @@ def after(date: str) -> str:
 
 def usage():
     "Print a usage message to the user"
-    ...
+    
+    print("Usage: assignment1.py YYYY-MM-DD YYYY-MM-DD")
+    sys.exit()
 
 def valid_date(date: str) -> bool:
     try:
@@ -194,4 +196,32 @@ def day_count(start_date: str, stop_date: str) -> int:
     return count
 
 if __name__ == "__main__":
-    ...
+
+    # Check that exactly two dates were entered
+    if len(sys.argv) != 3:
+        usage()
+
+    # Get the dates from the command line
+    date1 = sys.argv[1]
+    date2 = sys.argv[2]
+
+    # Make sure both dates are valid
+    if not valid_date(date1):
+        usage()
+
+    if not valid_date(date2):
+        usage()
+
+    # Put the earlier date first
+    if date1 <= date2:
+        start_date = date1
+        stop_date = date2
+    else:
+        start_date = date2
+        stop_date = date1
+
+    # Calculate the number of weekend days
+    weekend_days = day_count(start_date, stop_date)
+
+    # Display the result
+    print(f"The period between {start_date} and {stop_date} includes {weekend_days} weekend days.")
